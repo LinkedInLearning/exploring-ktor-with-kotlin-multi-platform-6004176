@@ -1,5 +1,5 @@
-# COURSENAME
-This is the repository for the LinkedIn Learning course `course-name`. The full course is available from [LinkedIn Learning][lil-course-url].
+# Exploring Ktor with Kotlin Multi-Platform
+This is the repository for the LinkedIn Learning course `Exploring Ktor with Kotlin Multi-Platform`. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![lil-thumbnail-url]
 
