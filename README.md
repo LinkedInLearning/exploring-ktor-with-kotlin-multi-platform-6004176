@@ -4,6 +4,9 @@ This is the repository for the LinkedIn Learning course `Exploring Ktor with Kot
 ![lil-thumbnail-url]
 
 ## Course Description
+Build high-quality Android and iOS apps from a single codebase using Kotlin Multiplatform (KMP), Ktor, and Compose Multiplatform. This course walks you through shared architecture, networking, and UI development—without switching languages or duplicating code. Along the way, you’ll implement features like API integration, smart caching, and cross-platform routing through a practical APOD (Astronomy Picture of the Day) app.
+
+Whether you’re coming from JavaScript or Dart, you’ll see how Kotlin offers stronger type safety, better tooling, and full access to platform APIs, making it a robust, modern alternative for building production-grade apps across mobile and backend platforms.
 
 _See the readme file in the main branch for updated instructions and information._
 ## Instructions
