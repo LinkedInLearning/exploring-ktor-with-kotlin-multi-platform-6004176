@@ -32,10 +32,8 @@ To resolve this issue:
 
 ## Instructor
 
-Instructor name
 Troy Miles
 
-Instructor description
 Software engineer, author, and educator with a passion for elegant code and clean design. With decades of experience and a knack for making complex topics approachable, Troy teaches developers how to level up their skills with modern tools, real-world examples, and a dash of humor. When he’s not coding, he’s probably playing guitar or exploring the latest tech trends.
 
 
