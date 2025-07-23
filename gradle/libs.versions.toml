@@ -35,10 +35,8 @@ junit = "4.13.2"
 # Navigation - Official Jetpack Navigation for Compose Multiplatform
 androidx-navigation = "2.9.0-beta03"
 
-# Coroutines
 kotlinx-coroutines = "1.10.2"
 
-# Serialization
 kotlinx-serialization = "1.7.3"
 coil = "3.2.0"
 
