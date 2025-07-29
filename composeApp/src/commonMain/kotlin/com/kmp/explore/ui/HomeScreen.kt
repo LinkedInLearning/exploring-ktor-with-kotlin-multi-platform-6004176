@@ -59,6 +59,25 @@ fun HomeScreen(
                     )
                 }
 
+                uiState.apodList.isEmpty() && uiState.error != null -> {
+                    Column(
+                        modifier = Modifier.align(Alignment.Center),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "❌ Error loading data",
+                            style = MaterialTheme.typography.h6
+                        )
+                        Text(
+                            text = uiState.error ?: "Unknown error",
+                            modifier = Modifier.padding(8.dp)
+                        )
+                        Button(onClick = { viewModel.refresh() }) {
+                            Text("Retry")
+                        }
+                    }
+                }
+
                 else -> {
                     LazyColumn(
                         state = listState,
