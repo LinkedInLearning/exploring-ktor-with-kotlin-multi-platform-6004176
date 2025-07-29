@@ -181,10 +181,7 @@ fun FindScreen(
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(
-                                onClick = {
-                                    // TODO: This button doesn't work yet - Chapter 6 challenge!
-                                    // onApodClick(foundApod!!)
-                                },
+                                onClick = { onApodClick(foundApod!!) },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("🌌 View Full Picture")
