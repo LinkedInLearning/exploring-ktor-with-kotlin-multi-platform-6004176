@@ -4,7 +4,6 @@ import com.kmp.explore.models.ApodResponse
 import com.kmp.explore.models.PaginatedResponse
 import org.slf4j.LoggerFactory
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class ApodService(private val nasaApiClient: NasaApiClient) {
     private val logger = LoggerFactory.getLogger(ApodService::class.java)
@@ -40,8 +39,11 @@ class ApodService(private val nasaApiClient: NasaApiClient) {
         }
     }
 
-    suspend fun getApodHistory(page: Int = 1, pageSize: Int = 10): PaginatedResponse<ApodResponse> {
-        // For now, return empty pagination - will be implemented with database in later modules
+    suspend fun getApodHistory(page: Int, pageSize: Int): PaginatedResponse<ApodResponse> {
+        require(page > 0) { "Page must be greater than 0" }
+        require(pageSize > 0) { "Page size must be greater than 0" }
+        require(pageSize <= 100) { "Page size cannot exceed 100" }
+
         return PaginatedResponse(
             items = emptyList(),
             page = page,
@@ -51,9 +53,9 @@ class ApodService(private val nasaApiClient: NasaApiClient) {
         )
     }
 
-    private fun validateDate(date: String) {
-        try {
-            LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+    private fun validateDate(dateStr: String): LocalDate {
+        return try {
+            LocalDate.parse(dateStr)
         } catch (e: Exception) {
             throw IllegalArgumentException("Invalid date format. Use YYYY-MM-DD format.")
         }
