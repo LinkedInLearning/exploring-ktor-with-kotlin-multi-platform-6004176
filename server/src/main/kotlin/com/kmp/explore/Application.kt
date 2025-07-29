@@ -1,5 +1,7 @@
 package com.kmp.explore
 
+import com.kmp.explore.config.appConfigModule
+import com.kmp.explore.config.DatabaseConfig
 import com.kmp.explore.config.initializeDatabase
 import com.kmp.explore.di.*
 import com.kmp.explore.plugins.*
@@ -15,7 +17,7 @@ fun main() {
 
 fun Application.module() {
     install(Koin) {
-        modules(appConfigModule, databaseModule, appModule)
+        modules(appConfigModule, DatabaseConfig.databaseModule, appModule)
     }
 
     initializeDatabase()
