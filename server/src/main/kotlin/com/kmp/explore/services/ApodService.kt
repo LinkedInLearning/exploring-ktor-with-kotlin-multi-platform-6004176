@@ -54,10 +54,22 @@ class ApodService(private val nasaApiClient: NasaApiClient) {
     }
 
     private fun validateDate(dateStr: String): LocalDate {
-        return try {
+        val parsedDate = try {
             LocalDate.parse(dateStr)
         } catch (e: Exception) {
             throw IllegalArgumentException("Invalid date format. Use YYYY-MM-DD format.")
         }
+
+        val today = LocalDate.now()
+        if (parsedDate.isAfter(today)) {
+            throw IllegalArgumentException("Date cannot be in the future.")
+        }
+
+        val apodStartDate = LocalDate.of(1995, 6, 16)
+        if (parsedDate.isBefore(apodStartDate)) {
+            throw IllegalArgumentException("No APOD available before 1995-06-16.")
+        }
+
+        return parsedDate
     }
 }
