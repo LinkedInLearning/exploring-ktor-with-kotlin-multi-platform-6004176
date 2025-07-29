@@ -4,6 +4,7 @@ import com.kmp.explore.getPlatform
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
@@ -21,6 +22,11 @@ object NetworkConfig {
 
             install(Logging) {
                 level = LogLevel.INFO
+            }
+
+            install(HttpTimeout) {
+                requestTimeoutMillis = 10000  // 10 seconds
+                connectTimeoutMillis = 5000   // 5 seconds
             }
         }
     }

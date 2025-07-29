@@ -1,7 +1,7 @@
 package com.kmp.explore.config
 
 object ServerConfig {
-    //    private const val SERVER_MODE = "broken"
+//    private const val SERVER_MODE = "broken"
     private const val SERVER_MODE = "working"
 
     private const val WORKING_SERVER = "192.168.0.229"

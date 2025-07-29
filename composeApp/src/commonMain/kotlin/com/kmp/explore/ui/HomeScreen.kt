@@ -37,7 +37,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("APOD Gallery") },
+                title = { Text("Home Gallery") },
                 actions = {
                     IconButton(onClick = { viewModel.refresh() }) {
                         Text("🔄")
@@ -57,25 +57,6 @@ fun HomeScreen(
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
-                }
-
-                uiState.apodList.isEmpty() && uiState.error != null -> {
-                    Column(
-                        modifier = Modifier.align(Alignment.Center),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "❌ Error loading data",
-                            style = MaterialTheme.typography.h6
-                        )
-                        Text(
-                            text = uiState.error ?: "Unknown error",
-                            modifier = Modifier.padding(8.dp)
-                        )
-                        Button(onClick = { viewModel.refresh() }) {
-                            Text("Retry")
-                        }
-                    }
                 }
 
                 else -> {
