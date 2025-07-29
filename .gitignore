@@ -1,18 +1,21 @@
+# SQLite database files
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# IDE files
+.idea/
 *.iml
-.kotlin
-.gradle
-**/build/
-xcuserdata
-!src/**/build/
+*.iws
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration
 local.properties
-.idea
+
+# OS files
 .DS_Store
-captures
-.externalNativeBuild
-.cxx
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
-**/xcshareddata/WorkspaceSettings.xcsettings
+Thumbs.db
