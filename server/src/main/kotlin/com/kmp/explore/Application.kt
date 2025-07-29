@@ -20,6 +20,8 @@ fun Application.module() {
 
     initializeDatabase()
     configureSerialization()
+    configureCallLogging()
+    configureStatusPages()
     configureRouting()
     configureBackgroundJobs()
 
