@@ -29,5 +29,5 @@ val appModule = module {
     single { ApodDao() }
     single { CacheMetadataDao() }
     single { NasaApiClient(get()) }
-    single { ApodService(get()) }
+    single { ApodService(get(), get(), get()) }
 }
