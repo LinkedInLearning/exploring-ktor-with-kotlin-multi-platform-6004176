@@ -75,18 +75,34 @@ class ApodService(
         }
     }
 
-    suspend fun getApodHistory(page: Int, pageSize: Int): PaginatedResponse<ApodResponse> {
+    suspend fun getApodHistory(
+        page: Int,
+        pageSize: Int,
+        startDate: String? = null,
+        endDate: String? = null
+    ): PaginatedResponse<ApodResponse> {
         require(page > 0) { "Page must be greater than 0" }
         require(pageSize > 0) { "Page size must be greater than 0" }
         require(pageSize <= 100) { "Page size cannot exceed 100" }
 
-        val (items, totalCount) = apodDao.getPaginated(page, pageSize)
+        // Validate date range if provided
+        if (startDate != null && endDate != null) {
+            val start = validateDate(startDate)
+            val end = validateDate(endDate)
+            require(!start.isAfter(end)) { "Start date cannot be after end date" }
+        }
 
-        if (items.isEmpty() && totalCount == 0) {
+        val (items, totalCount) = if (startDate != null && endDate != null) {
+            apodDao.getPaginated(page, pageSize, startDate, endDate)
+        } else {
+            apodDao.getPaginated(page, pageSize)
+        }
+
+        if (items.isEmpty() && totalCount == 0 && startDate == null && endDate == null) {
             val today = LocalDate.now()
-            val startDate = today.minusDays(minOf(30, cacheDays.toLong()))
+            val cacheStartDate = today.minusDays(minOf(30, cacheDays.toLong()))
 
-            fillHistoricalCache(startDate, today)
+            fillHistoricalCache(cacheStartDate, today)
 
             val (newItems, newTotalCount) = apodDao.getPaginated(page, pageSize)
             return PaginatedResponse(
@@ -191,6 +207,18 @@ class ApodService(
         return apodDao.deleteOlderThan(cutoffDate)
     }
 
+    private fun validateDate(dateStr: String): LocalDate {
+        return try {
+            LocalDate.parse(dateStr)
+        } catch (_: Exception) {
+            throw IllegalArgumentException("Invalid date format. Use YYYY-MM-DD format.")
+        }
+    }
+
+    private fun calculateTotalPages(totalItems: Int, pageSize: Int): Int {
+        return if (totalItems == 0) 1 else (totalItems + pageSize - 1) / pageSize
+    }
+
     suspend fun needsHistoricalDataFetch(): Boolean {
         try {
             val totalCount = apodDao.getTotalCount()
@@ -216,29 +244,5 @@ class ApodService(
             logger.error("Error checking database status", e)
             return true
         }
-    }
-
-    private fun validateDate(dateStr: String): LocalDate {
-        val parsedDate = try {
-            LocalDate.parse(dateStr)
-        } catch (e: Exception) {
-            throw IllegalArgumentException("Invalid date format. Use YYYY-MM-DD format.")
-        }
-
-        val today = LocalDate.now()
-        if (parsedDate.isAfter(today)) {
-            throw IllegalArgumentException("Date cannot be in the future.")
-        }
-
-        val apodStartDate = LocalDate.of(1995, 6, 16)
-        if (parsedDate.isBefore(apodStartDate)) {
-            throw IllegalArgumentException("No APOD available before 1995-06-16.")
-        }
-
-        return parsedDate
-    }
-
-    private fun calculateTotalPages(totalItems: Int, pageSize: Int): Int {
-        return if (totalItems == 0) 1 else (totalItems + pageSize - 1) / pageSize
     }
 }

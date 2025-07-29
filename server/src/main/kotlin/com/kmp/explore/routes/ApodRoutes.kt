@@ -16,13 +16,17 @@ fun Route.apodRoutes() {
     val apodService by inject<ApodService>()
     val logger = LoggerFactory.getLogger("apodRoutes")
 
+
     route("/api/apod") {
         get("/today") {
             try {
                 val apod = apodService.getTodayApod()
                 call.respond(apod)
             } catch (e: Exception) {
-                call.respondError(HttpStatusCode.InternalServerError, "Failed to fetch today's APOD: ${e.message}")
+                call.respondError(
+                    HttpStatusCode.InternalServerError,
+                    "Failed to fetch today's APOD: ${e.message}"
+                )
             }
         }
 
@@ -51,14 +55,19 @@ fun Route.apodRoutes() {
                 val apod = apodService.getRandomApod()
                 call.respond(apod)
             } catch (e: Exception) {
-                call.respondError(HttpStatusCode.InternalServerError, "Failed to fetch random APOD: ${e.message}")
+                call.respondError(
+                    HttpStatusCode.InternalServerError,
+                    "Failed to fetch random APOD: ${e.message}"
+                )
             }
         }
 
         get("/history") {
             try {
-                val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
-                val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
+                val page = call.parameters["page"]?.toIntOrNull() ?: 1
+                val pageSize = call.parameters["pageSize"]?.toIntOrNull() ?: 10
+                val startDate = call.parameters["startDate"]
+                val endDate = call.parameters["endDate"]
 
                 if (page <= 0 || pageSize <= 0 || pageSize > 100) {
                     call.respondError(
@@ -68,8 +77,19 @@ fun Route.apodRoutes() {
                     return@get
                 }
 
-                val history = apodService.getApodHistory(page, pageSize)
+                // Validate that both startDate and endDate are provided together
+                if ((startDate != null && endDate == null) || (startDate == null && endDate != null)) {
+                    call.respondError(
+                        HttpStatusCode.BadRequest,
+                        "Both startDate and endDate must be provided together or omitted together."
+                    )
+                    return@get
+                }
+
+                val history = apodService.getApodHistory(page, pageSize, startDate, endDate)
                 call.respond(history)
+            } catch (e: IllegalArgumentException) {
+                call.respondError(HttpStatusCode.BadRequest, e.message ?: "Invalid parameters")
             } catch (e: Exception) {
                 call.respondError(HttpStatusCode.InternalServerError, "Failed to fetch APOD history: ${e.message}")
             }
@@ -93,6 +113,7 @@ fun Route.apodRoutes() {
                 } ?: emptyList()
             }
 
+            // Create a flat structure with only string values
             val result = mapOf(
                 "status" to "success",
                 "message" to "Database connected successfully",
@@ -103,11 +124,13 @@ fun Route.apodRoutes() {
 
             call.respond(result)
         } catch (e: Exception) {
-            call.respond(mapOf(
-                "status" to "error",
-                "message" to (e.message ?: "Unknown error"),
-                "error" to e.toString()
-            ))
+            call.respond(
+                mapOf(
+                    "status" to "error",
+                    "message" to (e.message ?: "Unknown error"),
+                    "error" to e.toString()
+                )
+            )
         }
     }
 }
