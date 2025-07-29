@@ -2,6 +2,8 @@ package com.kmp.explore.di
 
 import com.kmp.explore.config.appConfigModule
 import com.kmp.explore.config.DatabaseConfig
+import com.kmp.explore.data.dao.ApodDao
+import com.kmp.explore.data.dao.CacheMetadataDao
 import com.kmp.explore.services.ApodService
 import com.kmp.explore.services.NasaApiClient
 import io.ktor.client.*
@@ -24,6 +26,8 @@ val appModule = module {
         }
     }
 
+    single { ApodDao() }
+    single { CacheMetadataDao() }
     single { NasaApiClient(get()) }
     single { ApodService(get()) }
 }
