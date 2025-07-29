@@ -4,6 +4,7 @@ import com.kmp.explore.network.ApodApiService
 import com.kmp.explore.network.NetworkConfig
 import com.kmp.explore.repository.ApodRepository
 import com.kmp.explore.repository.ApodRepositoryImpl
+import com.kmp.explore.ui.ApodViewModel
 import org.koin.dsl.module
 
 val sharedModule = module {
@@ -21,4 +22,7 @@ val sharedModule = module {
 
     // Repository
     single<ApodRepository> { ApodRepositoryImpl(get()) }
+
+    // ViewModel
+    single { ApodViewModel(get()) }
 }

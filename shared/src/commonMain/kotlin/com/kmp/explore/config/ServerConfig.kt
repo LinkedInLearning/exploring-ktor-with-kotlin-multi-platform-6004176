@@ -4,7 +4,7 @@ object ServerConfig {
     //    private const val SERVER_MODE = "broken"
     private const val SERVER_MODE = "working"
 
-    private const val WORKING_SERVER = "192.168.139.222"
+    private const val WORKING_SERVER = "192.168.0.229"
     private const val BROKEN_SERVER = "fake-server"
 
     private const val PORT = "8080"
