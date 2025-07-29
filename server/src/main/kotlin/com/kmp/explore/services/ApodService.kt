@@ -143,6 +143,81 @@ class ApodService(
         return count
     }
 
+    suspend fun runDailyCacheMaintenanceJob() {
+        logger.info("Running daily cache maintenance job")
+
+        try {
+            getTodayApod()
+
+            val deletedCount = cleanupOldEntries(cacheDays)
+            logger.info("Removed $deletedCount old entries from cache")
+
+            val today = LocalDate.now()
+            val oldestDate = today.minusDays(cacheDays.toLong())
+            val addedCount = fillMissingEntries(oldestDate, today)
+            logger.info("Added $addedCount missing entries to cache")
+
+            cacheMetadataDao.set("daily_maintenance_last_run", System.currentTimeMillis().toString())
+
+            logger.info("Daily cache maintenance completed successfully")
+        } catch (e: Exception) {
+            logger.error("Error in daily cache maintenance: ${e.message}", e)
+        }
+    }
+
+    private suspend fun fillMissingEntries(startDate: LocalDate, endDate: LocalDate): Int {
+        var currentDate = startDate
+        var count = 0
+
+        while (!currentDate.isAfter(endDate)) {
+            try {
+                if (apodDao.getByDate(currentDate.toString()) == null) {
+                    val apod = nasaApiClient.getApodByDate(currentDate.toString())
+                    apodDao.save(apod.copy(fetchedAt = System.currentTimeMillis()))
+                    count++
+                }
+            } catch (e: Exception) {
+                logger.error("fillMissingEntries Error fetching APOD for $currentDate: ${e.message}")
+            }
+
+            currentDate = currentDate.plusDays(1)
+        }
+
+        return count
+    }
+
+    private suspend fun cleanupOldEntries(keepDays: Int): Int {
+        val cutoffDate = LocalDate.now().minusDays(keepDays.toLong())
+        return apodDao.deleteOlderThan(cutoffDate)
+    }
+
+    suspend fun needsHistoricalDataFetch(): Boolean {
+        try {
+            val totalCount = apodDao.getTotalCount()
+
+            if (totalCount < 50) {
+                logger.info("Database has only $totalCount entries. Historical fetch needed.")
+                return true
+            }
+
+            val today = LocalDate.now()
+            val thirtyDaysAgo = today.minusDays(30)
+            val recentCount = apodDao.countInDateRange(thirtyDaysAgo.toString(), today.toString())
+
+            if (recentCount < 25) {
+                logger.info("Database has only $recentCount recent entries. Historical fetch needed.")
+                return true
+            }
+
+            logger.info("Database appears adequately populated ($totalCount total, $recentCount recent)")
+            return false
+
+        } catch (e: Exception) {
+            logger.error("Error checking database status", e)
+            return true
+        }
+    }
+
     private fun validateDate(dateStr: String): LocalDate {
         val parsedDate = try {
             LocalDate.parse(dateStr)

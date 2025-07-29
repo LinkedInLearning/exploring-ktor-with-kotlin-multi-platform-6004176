@@ -15,8 +15,8 @@ import com.kmp.explore.data.tables.CacheMetadataTable
 object DatabaseConfig {
     val databaseModule = module {
         single {
-            val appConfig = get<AppConfig>()
-            createHikariDataSource(appConfig.dbFilePath)
+            val apodConfig = get<ApodConfig>()
+            createHikariDataSource("data/randomspace.db")
         }
         single {
             val dataSource = get<HikariDataSource>()
@@ -51,11 +51,10 @@ object DatabaseConfig {
 
 fun Application.initializeDatabase() {
     val database by inject<Database>()
-    val appConfig by inject<AppConfig>()
 
     transaction(database) {
         SchemaUtils.create(ApodTable, CacheMetadataTable)
     }
 
-    log.info("SQLite database initialized successfully at: ${appConfig.dbFilePath}")
+    log.info("SQLite database initialized successfully at: data/randomspace.db")
 }
