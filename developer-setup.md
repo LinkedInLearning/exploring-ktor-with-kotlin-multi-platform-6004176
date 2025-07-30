@@ -1,26 +1,24 @@
-⸻
+# 🚀 Exploring Ktor with Kotlin Multiplatform Developer Setup Notes
 
-🚀 KMP Course Developer Setup Notes
+## ✅ Required Software Versions
 
-✅ Required Software Versions
+### 🧰 Android Studio
+- **Required Version**: Android Studio *Narwhal 2025.1.1 Patch 1* or later  
+  Build: `#AI-251.25410.109.2511.13752376` (built on July 8, 2025)
+- **Required Plugin**: Kotlin Multiplatform Plugin  
+  ID: `com.jetbrains.kmm 0.9-251.25410-AS-69`
+- **Enable K2 Mode**: Go to Kotlin plugin settings and enable **K2**
 
-🧰 Android Studio
-	•	Required Version: Android Studio Narwhal 2025.1.1 Patch 1 or later
-Build: #AI-251.25410.109.2511.13752376 (built on July 8, 2025)
-	•	Required Plugin: Kotlin Multiplatform Plugin
-ID: com.jetbrains.kmm 0.9-251.25410-AS-69
-	•	Enable K2 Mode: Go to Kotlin plugin settings and enable K2
+### ☕ Java
+- **Required Version**: Java 17 (**mandatory**)
+- ⚠️ Java 21 (bundled with Android Studio) is **not supported**
 
-☕ Java
-	•	Required Version: Java 17 (mandatory)
-	•	⚠️ Java 21 (bundled with Android Studio) is not supported
+---
 
-⸻
+## 🛠️ Java 17 Setup Instructions
 
-🛠️ Java 17 Setup Instructions
-
-📦 Install via Homebrew (Recommended)
-
+### 📦 Install via Homebrew (Recommended)
+```bash
 brew install openjdk@17
 
 # Add to your shell config
@@ -58,7 +56,7 @@ org.gradle.java.home=/opt/homebrew/opt/openjdk@17
 🔧 Essential Settings
 	•	Switch to Project view (not “Android” view)
 📁 Project Tool Window → Top dropdown → Select “Project”
-	•	Enable K2 mode in Kotlin plugin
+	•	Enable K2 mode in the Kotlin plugin
 	•	Allocate 2048M+ memory for KMP work
 
 🖥️ Platform Requirements
@@ -112,8 +110,8 @@ rm -rf ~/.konan
 🧪 Testing & Development Workflow
 
 🔄 Server Development
-	•	Start server using the Run Server config
-	•	Confirm server logs show successful start
+	•	Start the server using the Run Server config
+	•	Confirm server logs show a successful start
 	•	Ensure Android app builds and connects
 
 🧾 Sample API Test
@@ -168,18 +166,17 @@ const val WORKING_SERVER = "http://YOUR_IP_ADDRESS:8080"
 Platform	URL	Purpose
 Android Emulator	http://10.0.2.2:8080	Special host alias for emulator
 iOS Simulator	http://YOUR_IP:8080	Use your Mac’s IP
-Physical Devices	http://YOUR_IP:8080	Must be on same Wi-Fi network
+Physical Devices	http://YOUR_IP:8080	Must be on the same Wi-Fi network
 JVM/Desktop	http://localhost:8080	Localhost is fine
 
 
 ⸻
 
 🧪 Test Network Setup
-	1.	Start server
+	1.	Start the server
 	2.	Run from another device:
 
 curl http://YOUR_IP_ADDRESS:8080/api/admin/db-status
-
 
 	3.	Launch mobile apps — confirm they connect
 
@@ -187,9 +184,8 @@ curl http://YOUR_IP_ADDRESS:8080/api/admin/db-status
 
 🐞 Common Network Pitfalls
 	•	Android Emulator: Use 10.0.2.2, not your actual IP
-	•	iOS Simulator: Ensure ServerConfig.kt has correct IP
-	•	Physical Devices: Must be on same Wi-Fi as dev machine
+	•	iOS Simulator: Ensure ServerConfig.kt has the correct IP
+	•	Physical Devices: Must be on the same Wi-Fi as the dev machine
 	•	Firewall: Allow traffic on port 8080
 	•	Android: HTTP image loading requires network_security_config.xml
 
-⸻
