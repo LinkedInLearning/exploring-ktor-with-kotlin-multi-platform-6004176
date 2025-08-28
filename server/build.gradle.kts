@@ -6,40 +6,37 @@ repositories {
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinSerialization)  // Use the version catalog instead of hardcoded version
     application
 }
 
 application {
     mainClass.set("com.kmp.explore.ApplicationKt")
-
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
 dependencies {
-    // Shared module
-    implementation(project(":shared"))
-
-    // Ktor Server (Chapters 1-3)
+    // Ktor server
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.server.status.pages)
     implementation(libs.ktor.server.call.logging)
 
-    // Ktor Client for NASA API (Chapters 1-3)
+    // Resources for type-safe routing (optional - only if you need it)
+    implementation(libs.ktor.server.resources)
+
+    // Ktor client for NASA API
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.logging)
 
-    // Serialization (Chapters 1-3)
+    // Serialization
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
 
-    // Database (Chapters 2-3)
+    // Database
     implementation(libs.exposed.core)
     implementation(libs.exposed.dao)
     implementation(libs.exposed.jdbc)
@@ -47,14 +44,16 @@ dependencies {
     implementation(libs.sqlite.jdbc)
     implementation(libs.hikaricp)
 
-    // Dependency Injection (Chapters 1-3)
+    // Dependency Injection
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
 
-    // Logging (Chapters 1-3)
+    // Logging
     implementation(libs.logback)
+    implementation(project(":shared"))
 
-    // Testing (Chapters 1-3)
+    // Testing
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
 }
