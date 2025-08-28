@@ -1,0 +1,174 @@
+type: collection.insomnia.rest/5.0
+name: APOD Local Collection
+meta:
+  id: wrk_ec3bbfd01f0e4b12a8fcf6cdbc2d4c59
+  created: 1752707253232
+  modified: 1752707253232
+  description: ""
+collection:
+  - url: http://localhost:8080/health
+    name: Health Check
+    meta:
+      id: req_8165ac975a474b7ead6ee3b3bd079b91
+      created: 1752706444568
+      modified: 1752706638480
+      isPrivate: false
+      description: ""
+      sortKey: -1752706444568
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/apod/today
+    name: Get Today's APOD
+    meta:
+      id: req_b1e60b4597c64fdfb39cfd4b46b5e8c4
+      created: 1752706497371
+      modified: 1752706665872
+      isPrivate: false
+      description: ""
+      sortKey: -1752706497371
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/apod/date/:date
+    name: Get APOD by Date
+    meta:
+      id: req_4e04d75c48874e188ef4a415699b4933
+      created: 1752706562575
+      modified: 1752707708516
+      isPrivate: false
+      description: ""
+      sortKey: -1752706562575
+    method: GET
+    parameters:
+      - id: pair_2468e550c4154da4bb2dcb4ff782cadf
+        name: date
+        value: 2024-08-16
+        description: ""
+        disabled: false
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: date
+        value: YYYY-MM-DD
+  - url: http://localhost:8080/api/apod/random
+    name: Get Random APOD
+    meta:
+      id: req_e8419a8e9c6d477494ca1d4ec4c6d6ed
+      created: 1752706692251
+      modified: 1752706769191
+      isPrivate: false
+      description: ""
+      sortKey: -1752706692251
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/apod/history?page=1&pageSize=10
+    name: Get APOD History
+    meta:
+      id: req_8e1cee0a1fc749baabceb2a2a735a1cb
+      created: 1752706779855
+      modified: 1752706802035
+      isPrivate: false
+      description: ""
+      sortKey: -1752706779855
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/admin/db-status
+    name: Get DB Status
+    meta:
+      id: req_98a5d46a8d024384bc1ff81cbf89fd83
+      created: 1752706823490
+      modified: 1752706850636
+      isPrivate: false
+      description: ""
+      sortKey: -1752706823490
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_b3bfdb7db5ca487697381524113a2674
+    created: 1752706444420
+    modified: 1752706444420
+environments:
+  name: Base Environment
+  meta:
+    id: env_efd8d33e73dd45658093b3c3fca43ba1
+    created: 1752706444419
+    modified: 1752706444419
+    isPrivate: false
