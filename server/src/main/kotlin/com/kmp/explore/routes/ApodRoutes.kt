@@ -8,12 +8,14 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.inject
 import org.slf4j.LoggerFactory
 
 fun Route.apodRoutes() {
     val apodService by inject<ApodService>()
     val logger = LoggerFactory.getLogger("apodRoutes")
+
 
     route("/api/apod") {
         get("/today") {
@@ -72,6 +74,43 @@ fun Route.apodRoutes() {
             } catch (e: Exception) {
                 call.respondError(HttpStatusCode.InternalServerError, "Failed to fetch APOD history: ${e.message}")
             }
+        }
+
+    }
+
+    get("/api/admin/db-status") {
+        logger.info("In get - /api/admin/db-status")
+
+        try {
+            val db = org.jetbrains.exposed.sql.Database.connect(
+                url = "jdbc:sqlite:data/randomspace.db",
+                driver = "org.sqlite.JDBC"
+            )
+
+            val tables = transaction(db) {
+                exec("SELECT name FROM sqlite_master WHERE type='table';") { rs ->
+                    generateSequence {
+                        if (rs.next()) rs.getString(1) else null
+                    }.toList()
+                } ?: emptyList()
+            }
+
+            // Create a flat structure with only string values
+            val result = mapOf(
+                "status" to "success",
+                "message" to "Database connected successfully",
+                "dbPath" to "data/randomspace.db",
+                "tableCount" to tables.size.toString(),
+                "tables" to tables.joinToString(", ")
+            )
+
+            call.respond(result)
+        } catch (e: Exception) {
+            call.respond(mapOf(
+                "status" to "error",
+                "message" to (e.message ?: "Unknown error"),
+                "error" to e.toString()
+            ))
         }
     }
 }

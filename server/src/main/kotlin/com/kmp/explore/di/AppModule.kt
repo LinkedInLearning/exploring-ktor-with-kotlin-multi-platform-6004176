@@ -1,35 +1,30 @@
 package com.kmp.explore.di
 
+import com.kmp.explore.config.ApodConfig
+import com.kmp.explore.data.dao.ApodDao
+import com.kmp.explore.data.dao.CacheMetadataDao
 import com.kmp.explore.services.ApodService
 import com.kmp.explore.services.NasaApiClient
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-val appConfigModule = module {
-    // Basic configuration
-}
-
-val databaseModule = module {
-    // Database DAOs will be added in later modules
-}
-
 val appModule = module {
+    single { ApodConfig.load() }
+
     single {
-        HttpClient(CIO) {
-            install(io.ktor.client.plugins.contentnegotiation.ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                    coerceInputValues = true
-                })
-            }
-        }
+        val config = get<ApodConfig>()
+        NasaApiClient(config.nasaApiKey)
     }
 
-    single { NasaApiClient(get()) }
-    single { ApodService(get()) }
+    single { ApodDao() }
+    single { CacheMetadataDao() }
+
+    single {
+        val config = get<ApodConfig>()
+        ApodService(
+            nasaApiClient = get(),
+            apodDao = get(),
+            cacheMetadataDao = get(),
+            cacheDays = config.cacheDays
+        )
+    }
 }
