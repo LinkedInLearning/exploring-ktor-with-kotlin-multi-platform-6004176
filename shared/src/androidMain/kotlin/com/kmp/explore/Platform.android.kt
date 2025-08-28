@@ -1,14 +1,13 @@
 package com.kmp.explore
 
 import android.os.Build
-import com.kmp.explore.config.ServerConfig
 
 class AndroidPlatform : Platform {
     override val name: String = "Android"
     override val baseUrl: String = if (isEmulator()) {
-        ServerConfig.EMULATOR_URL
+        "http://10.0.2.2:8080"  // Emulator
     } else {
-        ServerConfig.DEVICE_URL
+        "http://100.64.228.194:8080"  // Updated IP
     }
 
     private fun isEmulator(): Boolean {

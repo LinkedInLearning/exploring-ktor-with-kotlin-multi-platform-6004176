@@ -75,34 +75,18 @@ class ApodService(
         }
     }
 
-    suspend fun getApodHistory(
-        page: Int,
-        pageSize: Int,
-        startDate: String? = null,
-        endDate: String? = null
-    ): PaginatedResponse<ApodResponse> {
+    suspend fun getApodHistory(page: Int, pageSize: Int): PaginatedResponse<ApodResponse> {
         require(page > 0) { "Page must be greater than 0" }
         require(pageSize > 0) { "Page size must be greater than 0" }
         require(pageSize <= 100) { "Page size cannot exceed 100" }
 
-        // Validate date range if provided
-        if (startDate != null && endDate != null) {
-            val start = validateDate(startDate)
-            val end = validateDate(endDate)
-            require(!start.isAfter(end)) { "Start date cannot be after end date" }
-        }
+        val (items, totalCount) = apodDao.getPaginated(page, pageSize)
 
-        val (items, totalCount) = if (startDate != null && endDate != null) {
-            apodDao.getPaginated(page, pageSize, startDate, endDate)
-        } else {
-            apodDao.getPaginated(page, pageSize)
-        }
-
-        if (items.isEmpty() && totalCount == 0 && startDate == null && endDate == null) {
+        if (items.isEmpty() && totalCount == 0) {
             val today = LocalDate.now()
-            val cacheStartDate = today.minusDays(minOf(30, cacheDays.toLong()))
+            val startDate = today.minusDays(minOf(30, cacheDays.toLong()))
 
-            fillHistoricalCache(cacheStartDate, today)
+            fillHistoricalCache(startDate, today)
 
             val (newItems, newTotalCount) = apodDao.getPaginated(page, pageSize)
             return PaginatedResponse(
