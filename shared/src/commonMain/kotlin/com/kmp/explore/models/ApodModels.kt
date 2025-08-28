@@ -8,7 +8,7 @@ data class ApodResponse(
     val date: String,
     val title: String,
     val explanation: String,
-    val url: String? = null,
+    val url: String,
     @SerialName("hdurl") val hdUrl: String? = null,
     @SerialName("media_type") val mediaType: String,
     val copyright: String? = null,
