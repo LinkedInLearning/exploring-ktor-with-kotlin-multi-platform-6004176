@@ -4,9 +4,7 @@ This is the repository for the LinkedIn Learning course `Exploring Ktor with Kot
 ![lil-thumbnail-url]
 
 ## Course Description
-Build high-quality Android and iOS apps from a single codebase using Kotlin Multiplatform (KMP), Ktor, and Compose Multiplatform. This course walks you through shared architecture, networking, and UI development—without switching languages or duplicating code. Along the way, you’ll implement features like API integration, smart caching, and cross-platform routing through a practical APOD (Astronomy Picture of the Day) app.
-
-Whether you’re coming from JavaScript or Dart, you’ll see how Kotlin offers stronger type safety, better tooling, and full access to platform APIs, making it a robust, modern alternative for building production-grade apps across mobile and backend platforms.
+In this hands-on course, Troy Miles—an award-winning software engineer, speaker, and author—explores the powerful combination of Ktor and Kotlin Multiplatform to build full-stack applications that share code across platforms. Step through the full process of creating a data-rich server application with Ktor, deploying it to AWS, and building cross-platform mobile clients using Kotlin Multiplatform with Jetpack Compose for Android and SwiftUI for iOS. Learn advanced techniques for handling large datasets, implementing API security, and creating efficient mobile UIs that communicate seamlessly with your backend. Plus, explore best practices for the security and performance of your applications.
 
 _See the readme file in the main branch for updated instructions and information._
 ## Instructions
@@ -27,12 +25,6 @@ To resolve this issue:
     Add changes to git using this command: git add .
 	Commit changes using this command: git commit -m "some message"
 
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
-
 ## Instructor
 
 Troy Miles
@@ -42,11 +34,11 @@ Software engineer, author, and educator with a passion for elegant code and clea
 
                             
 
-Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/).
+Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/troy-miles?u=104).
 
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
 
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQG0eDHsyOSqTA/learning-public-crop_675_1200/B4EZVdqqdwHUAY-/0/1741033220778?e=2147483647&v=beta&t=FxUDo6FA8W8CiFROwqfZKL_mzQhYx9loYLfjN-LNjgA
+[lil-course-url]: https://www.linkedin.com/learning/exploring-ktor-with-kotlin-multiplatform-and-compose
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQFfngO00MxqnQ/learning-public-crop_675_1200/B4EZjnfDwkIIAo-/0/1756230335761?e=2147483647&v=beta&t=jUfu6S51589bAn2Lh7Z106veCERpp9-E9PbKmSgGS1I
 
